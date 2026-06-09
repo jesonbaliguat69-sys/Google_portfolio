@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Connect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="phone-shell">
+    <main class="app" aria-live="polite">
+      <section id="loginScreen" class="screen login-screen active" aria-label="Sign in">
+        <form id="loginForm" class="login-card">
+          <div class="google-logo" aria-label="Google logo">
+            <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
+          </div>
+          <h1 class="login-title">Login</h1>
+          <p class="login-subtitle">to continue with my Portfolio</p>
+
+          <label class="field">
+            <span class="field-label">Username or email</span>
+            <input id="username" class="input" type="text" autocomplete="username" required />
+          </label>
+
+          <label class="field">
+            <span class="field-label">Password</span>
+            <input id="password" class="input" type="password" autocomplete="current-password" required />
+          </label>
+
+          <label class="checkbox-row">
+            <input id="showPassword" type="checkbox" />
+            <span>Show password</span>
+          </label>
+
+          <div class="login-links">
+            <a href="#" id="forgotLink">Forgot password?</a>
+          </div>
+
+          <div id="loginMessage" class="message" role="status"></div>
+
+          <div class="login-actions">
+            <button class="google-btn" id="googleBtn" type="button">
+              <span class="google-g" aria-hidden="true">G</span>
+              Continue with Google
+            </button>
+            <button class="primary-btn" type="submit">Login</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="portfolioScreen" class="screen portfolio-screen" aria-label="Portfolio">
+        <header class="topbar">
+          <button id="menuBtn" class="icon-btn" type="button" aria-label="Open menu">
+            <span class="material-icons">menu</span>
+          </button>
+          <div id="pageTitle" class="title">About Me</div>
+          <button class="avatar-btn" type="button" aria-label="Profile picture">
+            <img id="topAvatar" src="Paradise.png" alt="Profile" />
+          </button>
+        </header>
+
+        <div id="content" class="content"></div>
+
+        <nav class="bottom-nav" aria-label="Bottom navigation">
+          <button class="nav-item active" data-page="about" type="button">
+            <span class="material-icons">person</span>
+            <span>About</span>
+          </button>
+          <button class="nav-item" data-page="travel" type="button">
+             <span class="material-icons">photo_library</span>
+            <span>Gallery</span>
+          </button>
+          <button class="nav-item" data-page="hobbies" type="button">
+            <span class="material-icons">interests</span>
+            <span>Hobbies</span>
+          </button>
+          <button class="nav-item" data-page="music" type="button">
+            <span class="material-icons">music_note</span>
+            <span>Music</span>
+          </button>
+          <button class="nav-item" data-page="contact" type="button">
+            <span class="material-icons">mail</span>
+            <span>Contact</span>
+          </button>
+        </nav>
+      </section>
+
+      <div id="sidebarOverlay" class="overlay"></div>
+      <aside id="sidebar" class="sidebar" aria-label="Sidebar menu">
+        <div class="sidebar-head">
+          <img id="sidebarPhoto" class="sidebar-photo" src="Paradise.png" alt="Profile picture" />
+          <div>
+            <p id="sidebarName" class="sidebar-name">Portfolio User</p>
+            <p id="sidebarRole" class="sidebar-role">Portfolio Owner</p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="menu-list">
+          <button class="menu-item active" data-page="about" type="button"><span class="material-icons">person</span>About Me</button>
+          <button class="menu-item" data-page="travel" type="button"><span class="material-icons">flight</span>Travel</button>
+          <button class="menu-item" data-page="hobbies" type="button"><span class="material-icons">interests</span>Hobbies</button>
+          <button class="menu-item" data-page="music" type="button"><span class="material-icons">music_note</span>Music</button>
+           <button class="menu-item" data-page="travel" type="button"><span class="material-icons">photo_library</span>Gallery</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <button id="logoutBtn" class="menu-item logout" type="button">
+          <span class="material-icons">logout</span>
+          Logout
+        </button>
+      </aside>
+
+      <div id="modalOverlay" class="overlay"></div>
+      <div id="logoutDialog" class="dialog" role="dialog" aria-modal="true" aria-labelledby="logoutTitle">
+        <div class="dialog-head">
+          <span class="material-icons dialog-icon">logout</span>
+          <h2 id="logoutTitle" class="dialog-title">Logout</h2>
+        </div>
+        <p class="dialog-text">Are you sure you want to sign out of your portfolio account?</p>
+        <div class="dialog-actions">
+          <button id="cancelLogout" class="secondary-btn compact" type="button">Cancel</button>
+          <button id="confirmLogout" class="danger-btn compact" type="button">Logout</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
