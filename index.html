@@ -14,6 +14,8 @@
   <div class="phone-shell">
     <main class="app" aria-live="polite">
       <section id="loginScreen" class="screen login-screen active" aria-label="Sign in">
+        <div id="backgroundProfiles" class="background-profiles"></div>
+        
         <form id="loginForm" class="login-card">
           <div class="google-logo" aria-label="Google logo">
             <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
@@ -115,6 +117,11 @@
           <span class="material-icons">logout</span>
           Logout
         </button>
+      </aside>
+
+      <div id="profilesOverlay" class="overlay"></div>
+      <aside id="profilesSidebar" class="profiles-sidebar" aria-label="Profile preview">
+        <div id="profilesContent" class="profiles-content"></div>
       </aside>
 
       <div id="modalOverlay" class="overlay"></div>
