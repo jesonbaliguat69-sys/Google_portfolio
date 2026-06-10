@@ -14,44 +14,53 @@
   <div class="phone-shell">
     <main class="app" aria-live="polite">
       <section id="loginScreen" class="screen login-screen active" aria-label="Sign in">
-        <div id="backgroundProfiles" class="background-profiles"></div>
-        
-        <form id="loginForm" class="login-card">
-          <div class="google-logo" aria-label="Google logo">
-            <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
-          </div>
-          <h1 class="login-title">Login</h1>
-          <p class="login-subtitle">to continue with my Portfolio</p>
-
-          <label class="field">
-            <span class="field-label">Username or email</span>
-            <input id="username" class="input" type="text" autocomplete="username" required />
-          </label>
-
-          <label class="field">
-            <span class="field-label">Password</span>
-            <input id="password" class="input" type="password" autocomplete="current-password" required />
-          </label>
-
-          <label class="checkbox-row">
-            <input id="showPassword" type="checkbox" />
-            <span>Show password</span>
-          </label>
-
-          <div class="login-links">
-            <a href="#" id="forgotLink">Forgot password?</a>
+        <div class="login-container">
+          <div class="profiles-section">
+            <div class="profiles-header">
+              <h2>Choose a Portfolio</h2>
+            </div>
+            <div id="backgroundProfiles" class="background-profiles"></div>
           </div>
 
-          <div id="loginMessage" class="message" role="status"></div>
+          <div class="login-section">
+            <form id="loginForm" class="login-card">
+              <div class="google-logo" aria-label="Google logo">
+                <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
+              </div>
+              <h1 class="login-title">Login</h1>
+              <p class="login-subtitle">to continue with my Portfolio</p>
 
-          <div class="login-actions">
-            <button class="google-btn" id="googleBtn" type="button">
-              <span class="google-g" aria-hidden="true">G</span>
-              Continue with Google
-            </button>
-            <button class="primary-btn" type="submit">Login</button>
+              <label class="field">
+                <span class="field-label">Username or email</span>
+                <input id="username" class="input" type="text" autocomplete="username" required />
+              </label>
+
+              <label class="field">
+                <span class="field-label">Password</span>
+                <input id="password" class="input" type="password" autocomplete="current-password" required />
+              </label>
+
+              <label class="checkbox-row">
+                <input id="showPassword" type="checkbox" />
+                <span>Show password</span>
+              </label>
+
+              <div class="login-links">
+                <a href="#" id="forgotLink">Forgot password?</a>
+              </div>
+
+              <div id="loginMessage" class="message" role="status"></div>
+
+              <div class="login-actions">
+                <button class="google-btn" id="googleBtn" type="button">
+                  <span class="google-g" aria-hidden="true">G</span>
+                  Continue with Google
+                </button>
+                <button class="primary-btn" type="submit">Login</button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </section>
 
       <section id="portfolioScreen" class="screen portfolio-screen" aria-label="Portfolio">
