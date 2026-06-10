@@ -4,7 +4,7 @@ const users = {
     name: "Angela Samulde",
     role: "Office Administration",
     location: "Lau-an, Antique, Philippines",
-    bio: "OFFICE ADMINISTRATION\n\n“Choose Office Administration for a better future!”\n\nOffice Administration is a course that teaches office management, communication, computer, and organizational skills. It prepares students for jobs like office assistant, secretary, and administrative officer. It helps build professionalism and skills for a successful career.",
+    bio: "OFFICE ADMINISTRATION\n\n\"Choose Office Administration for a better future!\"\n\nOffice Administration is a course that teaches office management, communication, computer, and organization skills.",
     school: "Bachelor of Office Administration",
     skills: ["Communication skills", "Office management", "Filing and record keeping", "Customer service", "Administrative support", "Computer literacy"],
     image: "profile.jpg",
@@ -43,7 +43,7 @@ const users = {
     name: "Chritine",
     role: "Student - Developer - Dreamer",
     location: "Cebu City, Philippines",
-    bio: "I am a passionate student who enjoys building websites, learning new technologies, and improving my skills every day. I enjoy creating projects, solving problems, and turning ideas into reality through technology.",
+    bio: "I am a passionate student who enjoys building websites, learning new technologies, and improving my skills every day. I enjoy creating projects, solving problems, and turning ideas into reality.",
     school: "Bachelor of Science in Computer Science",
     skills: ["HTML", "CSS", "JavaScript", "PHP", "MySQL", "Problem Solving", "Communication", "Teamwork", "Time Management"],
     image: "Paradise.png",
@@ -100,7 +100,10 @@ const elements = {
   sidebarName: document.getElementById("sidebarName"),
   sidebarRole: document.getElementById("sidebarRole"),
   sidebarPhoto: document.getElementById("sidebarPhoto"),
-  topAvatar: document.getElementById("topAvatar")
+  topAvatar: document.getElementById("topAvatar"),
+  backgroundProfiles: document.getElementById("backgroundProfiles"),
+  profilesSidebar: document.getElementById("profilesSidebar"),
+  profilesOverlay: document.getElementById("profilesOverlay")
 };
 
 const pageLabels = {
@@ -124,6 +127,251 @@ const defaultGallery = [
   ["friends.jpg", "Friends", "A special memory with friends who bring joy, encouragement, and positivity into my life. These friendships make every experience more meaningful."],
   ["outing_with_friends.jpg", "Outing With Friends", "A memorable outing filled with laughter, adventure, and bonding. These experiences strengthened our friendship and created lasting memories."]
 ];
+
+function renderBackgroundProfiles() {
+  if (!elements.backgroundProfiles) return;
+
+  elements.backgroundProfiles.innerHTML = Object.entries(users).map(([key, user]) => `
+    <button class="profile-bg-card" data-user="${key}" type="button" aria-label="View ${user.name}'s profile">
+      <img src="${user.image}" alt="${user.name}" class="profile-bg-img" />
+      <div class="profile-bg-info">
+        <h3 class="profile-bg-name">${user.name}</h3>
+        <p class="profile-bg-role">${user.role}</p>
+      </div>
+    </button>
+  `).join("");
+
+  document.querySelectorAll(".profile-bg-card").forEach(button => {
+    button.addEventListener("click", () => {
+      openProfilesSidebar(button.dataset.user);
+    });
+  });
+}
+
+function openProfilesSidebar(userKey) {
+  const user = users[userKey];
+  if (!user) return;
+
+  const profilesContent = document.getElementById("profilesContent");
+  profilesContent.innerHTML = `
+    <div class="profiles-sidebar-head">
+      <img src="${user.image}" alt="${user.name}" class="profiles-photo" />
+      <div>
+        <p class="profiles-name">${user.name}</p>
+        <p class="profiles-role">${user.role}</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="profiles-menu-list">
+      <button class="profiles-menu-item active" data-user-page="about" type="button">
+        <span class="material-icons">person</span>About
+      </button>
+      <button class="profiles-menu-item" data-user-page="hobbies" type="button">
+        <span class="material-icons">interests</span>Hobbies
+      </button>
+      <button class="profiles-menu-item" data-user-page="music" type="button">
+        <span class="material-icons">music_note</span>Music
+      </button>
+      <button class="profiles-menu-item" data-user-page="travel" type="button">
+        <span class="material-icons">photo_library</span>Gallery
+      </button>
+      <button class="profiles-menu-item" data-user-page="contact" type="button">
+        <span class="material-icons">mail</span>Contact
+      </button>
+    </div>
+
+    <div class="divider"></div>
+
+    <button class="profiles-menu-item view-full" data-user="${userKey}" type="button">
+      <span class="material-icons">open_in_new</span>View Full Profile
+    </button>
+  `;
+
+  elements.profilesSidebar.classList.add("open");
+  elements.profilesOverlay.classList.add("open");
+
+  // Add event listeners for menu items
+  document.querySelectorAll(".profiles-menu-item[data-user-page]").forEach(button => {
+    button.addEventListener("click", () => {
+      renderProfileUserPage(userKey, button.dataset.userPage);
+    });
+  });
+
+  // View full profile button
+  document.querySelector(".profiles-menu-item.view-full")?.addEventListener("click", () => {
+    closeProfilesSidebar();
+    signIn(userKey);
+  });
+
+  // Initial render
+  renderProfileUserPage(userKey, "about");
+}
+
+function renderProfileUserPage(userKey, page) {
+  const user = users[userKey];
+  if (!user) return;
+
+  const profilesContent = document.getElementById("profilesContent");
+  const pageContent = profilesContent.querySelector(".profiles-page-content") || 
+                      document.createElement("div");
+  pageContent.className = "profiles-page-content";
+
+  // Update active menu
+  document.querySelectorAll(".profiles-menu-item[data-user-page]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.userPage === page);
+  });
+
+  let contentHTML = "";
+
+  if (page === "about") {
+    contentHTML = `
+      <section class="profiles-profile-card">
+        <div class="profiles-profile-top">
+          <img src="${user.image}" alt="${user.name}" class="profiles-profile-photo">
+          <div>
+            <h2 class="profiles-name">${user.name}</h2>
+            <div class="profiles-role">${user.role}</div>
+            <div class="profiles-location">${user.location}</div>
+          </div>
+        </div>
+      </section>
+      ${renderProfileInfoCard("school", "Biography", user.bio)}
+      ${renderProfileInfoCard("school", "Education", user.school)}
+      <section class="profiles-info-card">
+        <h3 class="profiles-section-title"><span class="material-icons">flag</span>Goals</h3>
+        <div class="profiles-goal-grid">
+          ${(user.goals || defaultGoals).map(([icon, goal]) => `
+            <article class="profiles-goal-card">
+              <span class="material-icons profiles-goal-icon">${icon}</span>
+              <h4>${goal}</h4>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+      <section class="profiles-info-card">
+        <h3 class="profiles-section-title"><span class="material-icons">check_circle</span>Skills</h3>
+        <div class="profiles-skill-list">
+          ${user.skills.map((skill) => `
+            <div class="profiles-skill-item">
+              <span class="material-icons">check_circle</span>
+              <span>${skill}</span>
+            </div>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  } else if (page === "travel") {
+    const gallery = user.gallery || defaultGallery;
+    contentHTML = `
+      <section class="profiles-section-card">
+        <h2 class="profiles-section-title"><span class="material-icons">photo_library</span>Gallery</h2>
+        <p class="profiles-card-text">Meaningful memories captured with friends and classmates.</p>
+      </section>
+      <div class="profiles-gallery-grid">
+        ${gallery.map(([image, title, description]) => `
+          <article class="profiles-gallery-card">
+            <img src="${image}" alt="${title}">
+            <div class="profiles-gallery-body">
+              <span class="profiles-gallery-label">Memory</span>
+              <h3 class="profiles-item-title">${title}</h3>
+              <p class="profiles-item-meta">${description}</p>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    `;
+  } else if (page === "hobbies") {
+    contentHTML = `
+      <section class="profiles-section-card">
+        <h2 class="profiles-section-title"><span class="material-icons">interests</span>Hobbies</h2>
+        <p class="profiles-card-text">Things I enjoy in daily life.</p>
+      </section>
+      <div class="profiles-item-list">
+        ${user.hobbies.map(([icon, title, description]) => renderProfileIconItem(icon, title, description)).join("")}
+      </div>
+    `;
+  } else if (page === "music") {
+    contentHTML = `
+      <section class="profiles-section-card">
+        <h2 class="profiles-section-title"><span class="material-icons">music_note</span>Music</h2>
+        <p class="profiles-card-text">Songs and playlists that fit the vibe.</p>
+      </section>
+      <div class="profiles-item-list">
+        ${user.music.map(([icon, title, description]) => renderProfileIconItem(icon, title, description)).join("")}
+      </div>
+    `;
+  } else if (page === "contact") {
+    contentHTML = `
+      <section class="profiles-section-card">
+        <h2 class="profiles-section-title"><span class="material-icons">mail</span>Contact</h2>
+        <p class="profiles-card-text">Ways to get in touch.</p>
+      </section>
+      <div class="profiles-item-list">
+        ${user.contact.map(([icon, title, value]) => renderProfileContactItem(icon, title, value)).join("")}
+      </div>
+    `;
+  }
+
+  if (!profilesContent.querySelector(".profiles-page-content")) {
+    profilesContent.appendChild(pageContent);
+  }
+  pageContent.innerHTML = contentHTML;
+}
+
+function renderProfileInfoCard(icon, title, text) {
+  return `
+    <section class="profiles-info-card">
+      <h3 class="profiles-section-title"><span class="material-icons">${icon}</span>${title}</h3>
+      <p class="profiles-card-text">${text}</p>
+    </section>
+  `;
+}
+
+function renderProfileIconItem(icon, title, description) {
+  return `
+    <article class="profiles-item-card">
+      <span class="material-icons profiles-item-icon">${icon}</span>
+      <div>
+        <h3 class="profiles-item-title">${title}</h3>
+        <p class="profiles-item-meta">${description}</p>
+      </div>
+    </article>
+  `;
+}
+
+function renderProfileContactItem(icon, title, value) {
+  const href = getContactHref(title, value);
+
+  if (!href) {
+    return `
+      <article class="profiles-item-card">
+        <span class="material-icons profiles-item-icon">${icon}</span>
+        <div>
+          <h3 class="profiles-item-title">${title}</h3>
+          <p class="profiles-item-meta">${value}</p>
+        </div>
+      </article>
+    `;
+  }
+
+  return `
+    <a class="profiles-item-card profiles-contact-link" href="${href}" target="${href.startsWith("http") ? "_blank" : "_self"}" rel="noopener">
+      <span class="material-icons profiles-item-icon">${icon}</span>
+      <div>
+        <h3 class="profiles-item-title">${title}</h3>
+        <p class="profiles-item-meta">${value}</p>
+      </div>
+      <span class="material-icons profiles-contact-arrow">open_in_new</span>
+    </a>
+  `;
+}
+
+function closeProfilesSidebar() {
+  elements.profilesSidebar.classList.remove("open");
+  elements.profilesOverlay.classList.remove("open");
+}
 
 function signIn(userKey) {
   state.currentUser = users[userKey];
@@ -371,6 +619,7 @@ function closeLogoutDialog() {
   elements.logoutDialog.classList.remove("open");
 }
 
+// Event Listeners
 elements.showPassword.addEventListener("change", () => {
   elements.passwordInput.type = elements.showPassword.checked ? "text" : "password";
 });
@@ -408,3 +657,9 @@ document.getElementById("logoutBtn").addEventListener("click", openLogoutDialog)
 document.querySelectorAll(".nav-item, .menu-item[data-page]").forEach((button) => {
   button.addEventListener("click", () => renderPage(button.dataset.page));
 });
+
+// Profiles sidebar overlay click
+elements.profilesOverlay?.addEventListener("click", closeProfilesSidebar);
+
+// Initialize background profiles on page load
+document.addEventListener("DOMContentLoaded", renderBackgroundProfiles);
